@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinggu</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('pink.gif'); /* Replace with your body background image URL */
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease-in-out;
+            color: rgba(204, 50, 178, 0.95);
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0); /* Adjust opacity for better readability */
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative; /* Make container position relative */
+            opacity: 1;
+            transition: opacity 0.2s ease-in-out;
+            overflow: hidden; /* Prevent button overflow */
+        }
+
+        h1 {
+            text-shadow: 2px 2px 4px rgb(255, 255, 255); /* Text shadow for the title */
+        }
+
+        p {
+            text-shadow: 1px 1px 2px rgb(255, 255, 255); /* Text shadow for the paragraph */
+            font-size: 40px; /* Change this value to your desired size */
+        }
+
+        button {
+            padding: 10px 20px; 
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ae42b8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        button:hover {
+            background-color: #8a3396;
+        }
+
+        img {
+            display: block; /* Center the image */
+            margin: 10px auto; /* Centering margin */
+            max-width: 100%; /* Ensure the image is responsive */
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <h1>Hello there, Welcome!</h1>
+        <img src="dal.gif" height="500px" width="300px" alt="Welcome Image">
+        <p>Wanna be my friend?</p>
+        <button id="changeContent">Yes!</button>
+        <button id="noButton">No!</button> <!-- Added No button -->
+    </div>
+
+    <script>
+        const backgrounds = [
+            "po.gif" // Replace with your GIF URL
+        ];
+
+        const contents = [
+            {
+                title: "Yehey, we're officially chinggu now.",
+                image: "pooh.gif" // Replace with your image URL
+            }
+        ];
+
+        let currentIndex = 0;
+
+        document.getElementById("changeContent").addEventListener("click", function() {
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+
+            // Fade out the content
+            const content = document.getElementById("content");
+            content.style.opacity = 0;
+
+            // Change background image
+            document.body.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
+
+            // Change content after the fade-out duration
+            setTimeout(() => {
+                content.innerHTML = `
+                    <h1>${contents[currentIndex].title}</h1>
+                    <p>I'm glad to be your friend.</p>
+                    <img src="${contents[currentIndex].image}" alt="Cute Image">
+                `;
+                // Fade in the content
+                content.style.opacity = 1;
+
+                // Reattach the event listener to the new button
+                document.getElementById("changeContent").addEventListener("click", arguments.callee);
+            }, 200); // Match with the CSS transition duration
+        });
+
+        // Move button functionality
+        const noButton = document.getElementById("noButton");
+        noButton.addEventListener("click", function() {
+            // Move the button to a random position within the container
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
+
+            const x = Math.random() * (containerRect.width - buttonRect.width);
+            const y = Math.random() * (containerRect.height - buttonRect.height);
+
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        });
+    </script>
+</body>
+</html>
